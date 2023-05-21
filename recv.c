@@ -41,10 +41,10 @@ void recv_mail()
     const unsigned short port = 110; // POP3 server port
     // const char* host_name = "pop.163.com"; // TODO: Specify the mail server domain name
     // const char* user = "ljx_lab_net_test@163.com"; // TODO: Specify the user
-    // const char* pass = "ECDTLKIAIRLKLWTB"; // TODO: Specify the password
+    // const char* pass = "****************"; // TODO: Specify the password
     const char* host_name = "pop.qq.com"; // TODO: Specify the mail server domain name
     const char* user = "2840026059@qq.com"; // TODO: Specify the user
-    const char* pass = "ojxedhmcgatqdhch"; // TODO: Specify the password
+    const char* pass = "****************"; // TODO: Specify the password
     char dest_ip[16];
     int s_fd; // socket file descriptor
     struct hostent *host;
