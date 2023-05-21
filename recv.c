@@ -14,16 +14,16 @@ char buf[MAX_SIZE+1];
 
 void mysend(int s_fd, const char* str, const char* error_msg) 
 {
-    // printf("%s", str);
-    printf("\033[0m\033[1;32m%s\033[0m", str);
     if(send(s_fd, str, strlen(str), 0) == -1 )
     {
         perror(error_msg);
         exit(EXIT_FAILURE);
     }
+    // printf("%s", str);
+    printf("\033[0m\033[1;32m%s\033[0m", str);
 }
 
-void myresv(int s_fd) 
+int myresv(int s_fd) 
 {
     int r_size;
     if ((r_size = recv(s_fd, buf, MAX_SIZE, 0)) == -1)
@@ -33,6 +33,7 @@ void myresv(int s_fd)
     }
     buf[r_size] = '\0'; // Do not forget the null terminator
     printf("%s\n", buf);
+    return r_size;
 }
 
 void recv_mail()
@@ -101,10 +102,17 @@ void recv_mail()
 
     // TODO: Retrieve the first mail and print its content
     mysend(s_fd, "RETR 1\r\n", "Send STAT fail!\n");
-    myresv(s_fd);
+    r_size = myresv(s_fd);
+    int tol_size = atoi(buf+4);
+    tol_size -= r_size;
+    while (tol_size > 0)
+    {
+        r_size = myresv(s_fd);
+        tol_size -= r_size;
+    }
 
     // TODO: Send QUIT command and print server response
-    mysend(s_fd, "quit\r\n", "QUIT command failed!\n");
+    mysend(s_fd, "QUIT\r\n", "QUIT command failed!\n");
     myresv(s_fd);
 
     close(s_fd);
